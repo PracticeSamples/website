@@ -136,8 +136,8 @@
       placeholder="Password"
       autocomplete="current-password"
     >
-
-    <button type="button" id="loginButton">Login</button>
+    
+<button type="button" onclick="login()">Login</button>
 
     <div id="message"></div>
 
@@ -170,7 +170,7 @@ const supabaseClient =
 
 
 // LOGIN
-document.getElementById('loginButton').addEventListener('click', login);
+
 
 async function login() {
 
