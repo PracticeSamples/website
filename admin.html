@@ -359,7 +359,21 @@ async function logout() {
   document.getElementById('email').value = '';
   document.getElementById('password').value = '';
 }
+async function checkSession() {
 
+  const { data } = await supabaseClient.auth.getSession();
+
+  if (data.session) {
+    document.getElementById('loginBox').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
+    loadProducts();
+  } else {
+    document.getElementById('loginBox').style.display = 'block';
+    document.getElementById('adminPanel').style.display = 'none';
+  }
+}
+
+checkSession();
 </script>
 
 </body>
