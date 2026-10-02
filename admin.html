@@ -348,16 +348,15 @@ document.getElementById('logoutButton')
 
 async function logout() {
 
-  await supabaseClient.auth.signOut();
+  const { error } = await supabaseClient.auth.signOut();
 
-  document.getElementById('adminPanel').style.display =
-    'none';
+  if (error) {
+    alert("Logout error: " + error.message);
+    console.error("Logout error:", error);
+    return;
+  }
 
-  document.getElementById('loginBox').style.display =
-    'block';
-
-  document.getElementById('email').value = '';
-  document.getElementById('password').value = '';
+  window.location.reload();
 }
 async function checkSession() {
 
@@ -367,7 +366,8 @@ async function checkSession() {
     document.getElementById('loginBox').style.display = 'none';
     document.getElementById('adminPanel').style.display = 'block';
     loadProducts();
-  } else {
+  } 
+  else {
     document.getElementById('loginBox').style.display = 'block';
     document.getElementById('adminPanel').style.display = 'none';
   }
