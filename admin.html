@@ -167,6 +167,13 @@ const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_kqGhyRBBmY7lIMobMctMog_2GkRpQfw
 
 
   const supabaseClient = window.supabase.createClient(
+    supabaseClient.auth.getSession().then(({ data }) => {
+  if (data.session) {
+    document.getElementById('loginBox').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
+    loadProducts();
+  }
+});
     SUPABASE_URL,
     SUPABASE_PUBLISHABLE_KEY
   );
