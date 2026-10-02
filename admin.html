@@ -1,252 +1,237 @@
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Little Fern Cafe | Admin</title>
-  
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  
-    <style>
-      * {
-        box-sizing: border-box;
-      }
-  
-      body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #f5f1e8;
-        color: #263226;
-      }
-  
-      .container {
-        max-width: 700px;
-        margin: auto;
-        padding: 25px 16px;
-      }
-  
-      h1 {
-        text-align: center;
-        margin-bottom: 25px;
-      }
-  
-      .box {
-        background: white;
-        padding: 20px;
-        border-radius: 14px;
-        margin-bottom: 20px;
-        box-shadow: 0 3px 12px rgba(0,0,0,.08);
-      }
-  
-      input {
-        width: 100%;
-        padding: 13px;
-        margin: 7px 0 12px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        font-size: 16px;
-      }
-  
-      button {
-        width: 100%;
-        padding: 13px;
-        border: 0;
-        border-radius: 8px;
-        background: #263226;
-        color: white;
-        font-size: 16px;
-        cursor: pointer;
-      }
-  
-      .product {
-        border: 1px solid #ddd;
-        border-radius: 12px;
-        padding: 15px;
-        margin-bottom: 12px;
-      }
-  
-      .product-name {
-        font-weight: bold;
-        font-size: 17px;
-        margin-bottom: 10px;
-      }
-  
-      .price {
-        width: 100%;
-        margin-bottom: 10px;
-      }
-  
-      .stock {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 10px;
-      }
-  
-      .stock button {
-        width: auto;
-        padding: 9px 14px;
-      }
-  
-      .in {
-        background: #3f7045;
-      }
-  
-      .out {
-        background: #777;
-      }
-  
-      #adminPanel {
-        display: none;
-      }
-  
-      #message {
-        text-align: center;
-        margin: 10px 0;
-        font-weight: bold;
-      }
-  
-      .logout {
-        background: #9b3d3d;
-        margin-bottom: 20px;
-      }
- 
-      
-    </style>
-  </head>
-  
-  <body>
-  
-  <div class="container">
-  
-    <h1>Little Fern Cafe<br>Admin Panel</h1>
-  
-    <div class="box" id="loginBox">
-  
-      <h2>Admin Login</h2>
-  
-      <input
-        type="email"
-        id="email"
-        placeholder="Email"
-        autocomplete="email"
-      >
-  
-      <input
-        type="password"
-        id="password"
-        placeholder="Password"
-        autocomplete="current-password"
-      >
-      
-  <button type="button" onclick="login()">Login</button>
-  
-      <div id="message"></div>
-  
-    </div>
-  
-    <div id="adminPanel">
-  
-      <button type="button" class="logout" id="logoutButton">
-        Logout
-      </button>
-  
-      <div id="products"></div>
-  
-    </div>
-  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Little Fern Cafe | Admin</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f1e8;
+      color: #263226;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      padding: 25px 16px;
+    }
+
+    h1 { text-align: center; margin-bottom: 25px; }
+
+    .box {
+      background: white;
+      padding: 20px;
+      border-radius: 14px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.08);
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      margin: 7px 0 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      border: 0;
+      border-radius: 8px;
+      background: #263226;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:disabled { opacity: .6; cursor: not-allowed; }
+
+    .product {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 12px;
+    }
+
+    .product-name {
+      font-weight: bold;
+      font-size: 17px;
+      margin-bottom: 10px;
+    }
+
+    .price { width: 100%; margin-bottom: 10px; }
+
+    .stock {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .stock button {
+      width: auto;
+      padding: 9px 14px;
+    }
+
+    .in  { background: #3f7045; }
+    .out { background: #777; }
+
+    /* Dono panel shuru mein hidden, JS se show honge */
+    #adminPanel { display: none; }
+
+    #message {
+      text-align: center;
+      margin: 10px 0;
+      font-weight: bold;
+      color: #9b3d3d;
+    }
+
+    .logout {
+      background: #9b3d3d;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>Little Fern Cafe<br>Admin Panel</h1>
+
+  <!-- LOGIN BOX -->
+  <div class="box" id="loginBox">
+    <h2>Admin Login</h2>
+
+    <input type="email" id="email" placeholder="Email" autocomplete="email">
+    <input type="password" id="password" placeholder="Password" autocomplete="current-password">
+
+    <button type="button" id="loginButton">Login</button>
+
+    <div id="message"></div>
   </div>
-  
-  <script>
-  
-  const SUPABASE_URL =
-    'https://zxyviwoxazmcmqyxiiuq.supabase.co';
-  
+
+  <!-- ADMIN PANEL (sirf login ke baad dikhega) -->
+  <div id="adminPanel">
+    <button type="button" class="logout" id="logoutButton">Logout</button>
+    <div id="products"></div>
+  </div>
+
+</div>
+
+<script>
+  const SUPABASE_URL = 'https://zxyviwoxazmcmqyxiiuq.supabase.co';
   const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_kqGhyRBBmY7lIMobMctMog_2GkRpQfw';
-  
-  const supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
-  
-  
-  // LOGIN
-  
-  
-  async function login() {
-  
-    const email =
-      document.getElementById('email').value.trim();
-  
-    const password =
-      document.getElementById('password').value;
-  
-    const message =
-      document.getElementById('message');
-  
-    if (!email || !password) {
-      message.textContent =
-        'Email and password required';
-      return;
-    }
-  
-    message.textContent = 'Logging in...';
-  
-    const { error } =
-      await supabaseClient.auth.signInWithPassword({
-        email: email,
-        password: password
-      });
-  
-    if (error) {
-      message.textContent = error.message;
-      return;
-    }
-  
-    message.textContent = '';
-  
-    document.getElementById('loginBox').style.display =
-      'none';
-  
-    document.getElementById('adminPanel').style.display =
-      'block';
-  
+
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+  const loginBox   = document.getElementById('loginBox');
+  const adminPanel = document.getElementById('adminPanel');
+  const message    = document.getElementById('message');
+  const loginBtn   = document.getElementById('loginButton');
+
+  // ---------- SCREEN SWITCH ----------
+  function showAdmin() {
+    loginBox.style.display = 'none';
+    adminPanel.style.display = 'block';
     loadProducts();
   }
-  
-  
-  // LOAD PRODUCTS
+
+  function showLogin() {
+    adminPanel.style.display = 'none';
+    loginBox.style.display = 'block';
+    document.getElementById('products').innerHTML = '';
+  }
+
+  // ---------- LOGIN ----------
+  async function login() {
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    if (!email || !password) {
+      message.textContent = 'Email and password required';
+      return;
+    }
+
+    message.style.color = '#263226';
+    message.textContent = 'Logging in...';
+    loginBtn.disabled = true;
+
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+
+    loginBtn.disabled = false;
+
+    if (error || !data || !data.session) {
+      message.style.color = '#9b3d3d';
+      message.textContent = error ? error.message : 'Login failed';
+      return;
+    }
+
+    message.textContent = '';
+    document.getElementById('password').value = '';
+    showAdmin();
+  }
+
+  loginBtn.addEventListener('click', login);
+
+  // Enter dabane se bhi login ho
+  ['email', 'password'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', e => {
+      if (e.key === 'Enter') login();
+    });
+  });
+
+  // ---------- LOAD PRODUCTS ----------
+  function escapeHtml(text) {
+    return String(text)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
   async function loadProducts() {
-  
-    const { data, error } =
-      await supabaseClient
-        .from('products')
-        .select('*')
-        .order('id', { ascending: true });
-  
+    const container = document.getElementById('products');
+    container.innerHTML = '<p style="text-align:center">Loading products...</p>';
+
+    const { data, error } = await supabaseClient
+      .from('products')
+      .select('*')
+      .order('id', { ascending: true });
+
     if (error) {
-      alert(
-        'Products load nahi hue: ' +
-        error.message
-      );
+      container.innerHTML = '';
+      alert('Products load nahi hue: ' + error.message);
       console.error(error);
       return;
     }
-  
-    const container =
-      document.getElementById('products');
-  
+
+    if (!data || data.length === 0) {
+      container.innerHTML = '<p style="text-align:center">Koi product nahi mila.</p>';
+      return;
+    }
+
     container.innerHTML = data.map(product => `
-  
       <div class="product">
-  
-        <div class="product-name">
-          ${product.name}
-        </div>
-  
-        <label>Price</label>
-  
+        <div class="product-name">${escapeHtml(product.name)}</div>
+
+        <label for="price-${product.id}">Price (Rs.)</label>
         <input
           class="price"
           type="number"
@@ -254,115 +239,93 @@
           value="${product.price}"
           min="0"
         >
-  
+
         <div class="stock">
-  
           <span>
             Stock:
-            <strong>
-              ${product.available
-                ? 'In Stock'
-                : 'Out of Stock'}
-            </strong>
+            <strong>${product.available ? 'In Stock' : 'Out of Stock'}</strong>
           </span>
-  
+
           <button
             type="button"
             class="${product.available ? 'in' : 'out'}"
-            onclick="toggleStock(${product.id}, ${product.available})"
+            onclick="toggleStock(${product.id}, ${product.available ? 'true' : 'false'})"
           >
-            ${product.available
-              ? 'In Stock'
-              : 'Out of Stock'}
+            ${product.available ? 'Mark Out of Stock' : 'Mark In Stock'}
           </button>
-  
         </div>
-  
-        <button
-          type="button"
-          onclick="saveProduct(${product.id})"
-        >
-          Save Changes
+
+        <button type="button" onclick="saveProduct(${product.id})">
+          Save Price
         </button>
-  
       </div>
-  
     `).join('');
   }
-  
-  
-  // CHANGE STOCK
+
+  // ---------- STOCK TOGGLE ----------
   async function toggleStock(id, currentStatus) {
-  
-    const { error } =
-      await supabaseClient
-        .from('products')
-        .update({
-          available: !currentStatus
-        })
-        .eq('id', id);
-  
+    const { error } = await supabaseClient
+      .from('products')
+      .update({ available: !currentStatus })
+      .eq('id', id);
+
     if (error) {
       alert(error.message);
       return;
     }
-  
+
     loadProducts();
   }
-  
-  
-  // SAVE PRICE
+
+  // ---------- SAVE PRICE ----------
   async function saveProduct(id) {
-  
-    const priceInput =
-      document.getElementById(`price-${id}`);
-  
-    const price =
-      Number(priceInput.value);
-  
+    const price = Number(document.getElementById('price-' + id).value);
+
     if (isNaN(price) || price < 0) {
       alert('Please enter a valid price');
       return;
     }
-  
-    const { error } =
-      await supabaseClient
-        .from('products')
-        .update({
-          price: price
-        })
-        .eq('id', id);
-  
+
+    const { error } = await supabaseClient
+      .from('products')
+      .update({ price: price })
+      .eq('id', id);
+
     if (error) {
       alert(error.message);
       return;
     }
-  
+
     alert('Product updated successfully ✅');
-  
     loadProducts();
   }
-  
-  
-  // LOGOUT
-  document.getElementById('logoutButton')
-    .addEventListener('click', logout);
-  
-  async function logout() {
-  
+
+  // ---------- LOGOUT ----------
+  document.getElementById('logoutButton').addEventListener('click', async () => {
     const { error } = await supabaseClient.auth.signOut();
-  
+
     if (error) {
-      alert("Logout error: " + error.message);
-      console.error("Logout error:", error);
+      alert('Logout error: ' + error.message);
+      console.error(error);
       return;
     }
-  
-    window.location.reload();
+
+    showLogin();
+  });
+
+  // ---------- PAGE LOAD: pehle se login hai ya nahi ----------
+  async function checkSession() {
+    const { data } = await supabaseClient.auth.getSession();
+
+    if (data && data.session) {
+      showAdmin();
+    } else {
+      showLogin();
+    }
   }
-    
-  
-  </script>
-  
-  </body>
-  </html>
+
+  checkSession();
+</script>
+
+</body>
+</html>
