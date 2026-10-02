@@ -29,7 +29,10 @@
     button, a { -webkit-tap-highlight-color: transparent; }
     button { color: inherit; }
     img { display: block; max-width: 100%; }
-    .announcement { padding: 10px 20px; color: var(--white); background: var(--green-dark); text-align: center; font-size: 11px; letter-spacing: .08em; }
+    .announcement { min-height: 36px; display: grid; place-items: center; overflow: hidden; padding: 9px 20px; color: var(--white); background: var(--green-dark); text-align: center; font-size: 11px; letter-spacing: .08em; }
+    .announcement-message { display: block; }
+    .announcement-message.is-sliding { animation: quoteSlide .55s ease both; }
+    @keyframes quoteSlide { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
     .announcement span { color: var(--lime); }
     .site-header { position: sticky; z-index: 5; top: 0; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 17px max(5vw, calc((100vw - 1320px) / 2)); background: rgb(245 241 232 / 94%); border-bottom: 1px solid var(--line); backdrop-filter: blur(12px); }
     .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
@@ -93,6 +96,24 @@
     .story-copy > p:not(.eyebrow) { color: var(--muted); font-size: 13px; line-height: 1.8; }
     .story-points { display: flex; gap: 24px; margin-top: 25px; }
     .story-points span { color: var(--green); font-size: 11px; font-weight: 700; }
+    .reviews-section { width: min(1320px, 90%); margin: 0 auto; padding: 84px 0; scroll-margin-top: 100px; }
+    .reviews-heading { margin-bottom: 28px; }
+    .reviews-heading h2 { margin-bottom: 10px; }
+    .reviews-heading > p:last-child { max-width: 430px; margin-bottom: 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .reviews-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+    .review-card { min-height: 205px; padding: 20px; background: var(--white); border: 1px solid var(--line); }
+    .review-stars { margin-bottom: 22px; color: var(--tomato); font-size: 13px; letter-spacing: .08em; }
+    .review-card h3 { margin-bottom: 9px; font: 600 18px var(--serif); }
+    .review-card p { margin-bottom: 0; color: var(--muted); font-size: 12px; line-height: 1.7; }
+    .contact-section { padding: 48px max(5vw, calc((100vw - 1320px) / 2)); background: #e9eddf; scroll-margin-top: 100px; }
+    .contact-content { display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+    .contact-copy { max-width: 550px; }
+    .contact-copy h2 { margin-bottom: 10px; }
+    .contact-copy > p:last-child { margin-bottom: 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .contact-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .contact-actions .primary-button { min-width: 150px; }
+    .contact-call { color: var(--green); background: transparent; border: 1px solid var(--green); }
+    .contact-call:hover { color: var(--white); background: var(--green-dark); }
     .checkout-section { padding: 88px 0 96px; scroll-margin-top: 82px; }
     .checkout-heading { margin-bottom: 28px; }
     .checkout-heading h2 { margin-bottom: 9px; }
@@ -111,6 +132,8 @@
     .quantity-control span { min-width: 12px; text-align: center; font-size: 12px; font-weight: 700; }
     .line-total { align-self: start; font-size: 12px; font-weight: 700; }
     .summary-total { display: flex; justify-content: space-between; margin-top: 14px; padding-top: 16px; border-top: 1px solid #c9d1c0; font-size: 14px; font-weight: 700; }
+    .summary-line { display: flex; justify-content: space-between; gap: 16px; margin-top: 12px; color: var(--muted); font-size: 12px; }
+    .summary-line.delivery-free { color: var(--green); }
     .customer-form { padding: 24px; background: var(--white); border: 1px solid var(--line); }
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .field { display: flex; flex-direction: column; gap: 7px; }
@@ -130,6 +153,7 @@
     @media (max-width: 900px) {
       .main-nav { gap: 15px; }
       .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .reviews-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .hero { grid-template-columns: 1fr 1fr; min-height: 490px; }
       .hero-image { min-height: 490px; }
       .hero-copy { padding-left: 5vw; }
@@ -137,8 +161,9 @@
     }
     @media (max-width: 650px) {
       .announcement { font-size: 9px; }
-      .site-header { padding: 12px 5%; }
-      .main-nav { display: none; }
+      .site-header { flex-wrap: wrap; row-gap: 10px; padding: 12px 5%; }
+      .main-nav { order: 3; display: flex; flex: 1 0 100%; justify-content: space-between; gap: 8px; }
+      .main-nav a { font-size: 10px; }
       .brand-name { font-size: 16px; }
       .cart-link { padding: 9px 10px; }
       .hero { grid-template-columns: 1fr; }
@@ -160,6 +185,12 @@
       .add-button { gap: 4px; min-height: 32px; padding: 0 8px; font-size: 10px; }
       .story-strip { grid-template-columns: 1fr; gap: 28px; padding: 42px 5%; }
       .story-photo { height: 250px; }
+      .reviews-section { padding: 60px 0; }
+      .reviews-grid { gap: 10px; }
+      .review-card { min-height: 0; padding: 15px; }
+      .review-stars { margin-bottom: 16px; }
+      .contact-section { padding: 38px 5%; }
+      .contact-content { align-items: flex-start; flex-direction: column; gap: 20px; }
       .checkout-section { padding: 64px 0; }
       .checkout-grid { grid-template-columns: 1fr; gap: 16px; }
       .order-summary, .customer-form { padding: 19px; }
@@ -178,14 +209,14 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-  <div class="announcement">FRESHLY MADE, EVERY DAY <span>✳</span> FREE DELIVERY ON ORDERS ABOVE RS. 499</div>
+  <div class="announcement" aria-live="polite"><span class="announcement-message" id="announcementMessage">FRESHLY MADE, EVERY DAY <span>✳</span> FREE DELIVERY ABOVE RS. 499</span></div>
   <header class="site-header">
     <a class="brand" href="#home" aria-label="Little Fern Cafe home">
       <span class="brand-mark" aria-hidden="true">f</span>
       <span class="brand-name">Little Fern<small>Cafe & kitchen</small></span>
     </a>
-    <nav class="main-nav" aria-label="Main navigation"><a href="#menu">Menu</a><a href="#story">Our cafe</a><a href="#checkout">Order online</a></nav>
-    <button class="cart-link" type="button" onclick="goToCheckout()" aria-label="Go to cart and checkout">Your order <span class="cart-count" id="cartCount">0</span></button>
+    <nav class="main-nav" aria-label="Main navigation"><a href="#menu">Menu</a><a href="#story">Our cafe</a><a href="#reviews">Reviews</a><a href="#contact">Contact</a><a href="#checkout">Order online</a></nav>
+    <button class="cart-link" type="button" onclick="goToCheckout()" aria-label="Open cart"><span aria-hidden="true">🛍</span> Cart <span class="cart-count" id="cartCount">0</span></button>
   </header>
   <main>
     <section class="hero" id="home">
@@ -217,21 +248,40 @@
       <div class="story-copy"><p class="eyebrow">A neighborhood kind of cafe</p><h2>Made fresh.<br>Served with heart.</h2><p>Little Fern is your easy, everyday place for a proper cup, a refreshing drink and something lovely to eat. We keep good ingredients close and make each order when you ask for it.</p><div class="story-points"><span>Freshly prepared</span><span>Good mood guaranteed</span></div></div>
     </section>
 
+    <section class="reviews-section" id="reviews" aria-labelledby="reviewsTitle">
+      <div class="reviews-heading"><p class="eyebrow">Kind words</p><h2 id="reviewsTitle">A little love<br>from our guests.</h2><p>Good food is even better when it comes with a warm welcome.</p></div>
+      <div class="reviews-grid">
+        <article class="review-card"><div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div><h3>Lovely ambience</h3><p>A calm, welcoming space with a lovely atmosphere. It is an easy place to slow down and enjoy your coffee.</p></article>
+        <article class="review-card"><div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div><h3>Fresh, tasty food</h3><p>The food was fresh and full of flavor. Everything arrived just right, and the coffee was a treat.</p></article>
+        <article class="review-card"><div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div><h3>Warm hospitality</h3><p>We felt respected and cared for from the moment we arrived. The team made us feel right at home.</p></article>
+        <article class="review-card"><div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div><h3>Thoughtful service</h3><p>Kind manners, attentive service, and a genuine smile made the whole visit feel special.</p></article>
+      </div>
+    </section>
+
+    <section class="contact-section" id="contact" aria-labelledby="contactTitle">
+      <div class="contact-content">
+        <div class="contact-copy"><p class="eyebrow">We are here for you</p><h2 id="contactTitle">Come say hello.</h2><p>Questions about the menu or your order? Give us a call or message us on WhatsApp. We would love to help.</p></div>
+        <div class="contact-actions"><a class="primary-button" href="https://wa.me/918949106245" target="_blank" rel="noopener noreferrer">Message on WhatsApp <span aria-hidden="true">↗</span></a><a class="primary-button contact-call" href="tel:+918949106245">Call +91 89491 06245</a></div>
+      </div>
+    </section>
+
     <section class="checkout-section" id="checkout">
-      <div class="checkout-heading"><p class="eyebrow">Nearly yours</p><h2>Your order</h2><p>Check your items, add your delivery details and send the order to us on WhatsApp.</p></div>
+      <div class="checkout-heading"><p class="eyebrow">Nearly yours</p><h2>Cart</h2><p>Review your items, add delivery details and send your order on WhatsApp.</p></div>
       <div class="checkout-grid">
         <section class="order-summary" aria-label="Cart summary">
-          <h3>Order summary</h3>
+          <h3>Your cart</h3>
           <div id="cartItems"></div>
+          <div class="summary-line"><span>Subtotal</span><span id="cartSubtotal">Rs. 0</span></div>
+          <div class="summary-line" id="deliveryLine"><span>Delivery</span><span id="deliveryFee">Rs. 0</span></div>
           <div class="summary-total"><span>Total</span><span id="cartTotal">Rs. 0</span></div>
         </section>
         <form class="customer-form" id="orderForm" onsubmit="sendOrder(event)">
           <h3>Delivery details</h3>
           <div class="form-grid">
             <div class="field"><label for="customerName">Full name</label><input id="customerName" name="name" autocomplete="name" placeholder="Your name" required></div>
-            <div class="field"><label for="mobile">Mobile number</label><input id="mobile" name="mobile" type="tel" inputmode="numeric" autocomplete="tel" pattern="[0-9]{10}" maxlength="10" placeholder="10-digit mobile number" required></div>
+            <div class="field"><label for="mobile">Mobile number</label><input id="mobile" name="mobile" type="tel" inputmode="numeric" autocomplete="tel" pattern="[0-9]{10}" placeholder="10-digit mobile number" required></div>
             <div class="field full"><label for="address">Delivery address</label><textarea id="address" name="address" autocomplete="street-address" placeholder="House number, street, area" required></textarea></div>
-            <div class="field"><label for="pincode">Pincode</label><input id="pincode" name="pincode" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="6-digit pincode" required></div>
+            <div class="field"><label for="pincode">Pincode</label><input id="pincode" name="pincode" inputmode="numeric" pattern="[0-9]{6}" placeholder="6-digit pincode" required></div>
           </div>
           <button class="primary-button submit-button" type="submit">Send order on WhatsApp <span aria-hidden="true">↗</span></button>
           <p class="form-note">Your WhatsApp app will open with the order details ready to send.</p>
@@ -247,7 +297,7 @@
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
   <script>
-    const OWNER_WHATSAPP = '91XXXXXXXXXX';
+    const OWNER_WHATSAPP = '918949106245';
     const SUPABASE_URL = 'https://zxyviwoxazmcmqyxiiuq.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_kqGhyRBBmY7lIMobMctMog_2GkRpQfw';
 
@@ -310,7 +360,27 @@ async function loadProductsFromSupabase() {
     const cart = new Map();
     let activeCategory = 'All';
     let toastTimeout;
+    const DELIVERY_THRESHOLD = 499;
+    const DELIVERY_FEE = 99;
+    const announcementQuotes = [
+      'FRESHLY MADE, EVERY DAY <span>✳</span> FREE DELIVERY ABOVE RS. 499',
+      'GOOD FOOD, GOOD COMPANY <span>✳</span> MADE FRESH WHEN YOU ORDER',
+      'A LITTLE PAUSE IN YOUR DAY <span>✳</span> SOMETHING LOVELY IS BREWING',
+      'FRESH FLAVORS, HAPPY MOMENTS <span>✳</span> COME AS YOU ARE'
+    ];
     const money = amount => 'Rs. ' + amount.toLocaleString('en-IN');
+
+    function startAnnouncementRotation() {
+      let quoteIndex = 0;
+      setInterval(() => {
+        const message = document.getElementById('announcementMessage');
+        quoteIndex = (quoteIndex + 1) % announcementQuotes.length;
+        message.classList.remove('is-sliding');
+        message.innerHTML = announcementQuotes[quoteIndex];
+        void message.offsetWidth;
+        message.classList.add('is-sliding');
+      }, 4500);
+    }
 
     function renderCategories() {
       const choices = [{ name: 'All', icon: '✳', count: products.length }, ...categories.map(category => ({ name: category.name, icon: category.icon, count: 10 }))];
@@ -365,8 +435,7 @@ function selectCategory(categoryName) {
 if (product.available === false) return;
       cart.set(id, (cart.get(id) || 0) + 1);
       renderCart();
-      showToast(`${products[id - 1].name} added to your order`);
-      goToCheckout();
+      showToast(`${product.name} added to cart`);
     }
 
     function changeQuantity(id, amount) {
@@ -378,7 +447,8 @@ if (product.available === false) return;
 
     function renderCart() {
       const count = [...cart.values()].reduce((sum, quantity) => sum + quantity, 0);
-      const total = [...cart].reduce((sum, [id, quantity]) => sum + products[id - 1].price * quantity, 0);
+      const subtotal = [...cart].reduce((sum, [id, quantity]) => sum + products[id - 1].price * quantity, 0);
+      const delivery = subtotal > 0 && subtotal < DELIVERY_THRESHOLD ? DELIVERY_FEE : 0;
       document.getElementById('cartCount').textContent = count;
       document.getElementById('cartItems').innerHTML = cart.size ? [...cart].map(([id, quantity]) => {
         const product = products[id - 1];
@@ -390,7 +460,10 @@ if (product.available === false) return;
           </div><span class="line-total">${money(product.price * quantity)}</span>
         </div>`;
       }).join('') : '<div class="empty-cart">Your order is empty. <a href="#menu">Browse the menu</a> to add something fresh.</div>';
-      document.getElementById('cartTotal').textContent = money(total);
+      document.getElementById('cartSubtotal').textContent = money(subtotal);
+      document.getElementById('deliveryFee').textContent = delivery ? money(delivery) : 'Free';
+      document.getElementById('deliveryLine').classList.toggle('delivery-free', delivery === 0 && subtotal >= DELIVERY_THRESHOLD);
+      document.getElementById('cartTotal').textContent = money(subtotal + delivery);
     }
 
     function goToCheckout() {
@@ -407,10 +480,6 @@ if (product.available === false) return;
 
     function sendOrder(event) {
       event.preventDefault();
-      if (OWNER_WHATSAPP.includes('X')) {
-        showToast('Set the cafe owner WhatsApp number before placing orders.');
-        return;
-      }
       if (!cart.size) {
         showToast('Add at least one item before placing your order.');
         document.getElementById('menu').scrollIntoView({ behavior: 'smooth' });
@@ -421,14 +490,22 @@ if (product.available === false) return;
         const product = products[id - 1];
         return `- ${product.name} x ${quantity} = ${money(product.price * quantity)}`;
       }).join('\n');
-      const total = [...cart].reduce((sum, [id, quantity]) => sum + products[id - 1].price * quantity, 0);
-      const message = `Hello Little Fern Cafe, I would like to place an order.\n\nName: ${form.get('name')}\nMobile: ${form.get('mobile')}\nAddress: ${form.get('address')}\nPincode: ${form.get('pincode')}\n\nItems:\n${items}\n\nTotal: ${money(total)}`;
+      const subtotal = [...cart].reduce((sum, [id, quantity]) => sum + products[id - 1].price * quantity, 0);
+      const delivery = subtotal > 0 && subtotal < DELIVERY_THRESHOLD ? DELIVERY_FEE : 0;
+      const message = `Hello Little Fern Cafe, I would like to place an order.\n\nName: ${form.get('name')}\nMobile: ${form.get('mobile')}\nAddress: ${form.get('address')}\nPincode: ${form.get('pincode')}\n\nItems:\n${items}\n\nSubtotal: ${money(subtotal)}\nDelivery: ${delivery ? money(delivery) : 'Free'}\nTotal: ${money(subtotal + delivery)}`;
       window.open(`https://wa.me/${OWNER_WHATSAPP}?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
     }
 
+    document.getElementById('mobile').addEventListener('input', event => {
+      event.currentTarget.value = event.currentTarget.value.replace(/\D/g, '').slice(0, 10);
+    });
+    document.getElementById('pincode').addEventListener('input', event => {
+      event.currentTarget.value = event.currentTarget.value.replace(/\D/g, '').slice(0, 6);
+    });
     renderCategories();
     renderProducts();
     renderCart();
+    startAnnouncementRotation();
     loadProductsFromSupabase();
   </script>
 </body>
