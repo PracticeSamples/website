@@ -119,7 +119,6 @@
 
   <h1>Little Fern Cafe<br>Admin Panel</h1>
 
-  <!-- LOGIN -->
   <div class="box" id="loginBox">
 
     <h2>Admin Login</h2>
@@ -138,17 +137,17 @@
       autocomplete="current-password"
     >
 
-    <button onclick="login()">Login</button>
+    <button type="button" id="loginButton">Login</button>
 
     <div id="message"></div>
 
   </div>
 
-
-  <!-- ADMIN PANEL -->
   <div id="adminPanel">
 
-    <button class="logout" onclick="logout()">Logout</button>
+    <button type="button" class="logout" id="logoutButton">
+      Logout
+    </button>
 
     <div id="products"></div>
 
@@ -156,188 +155,210 @@
 
 </div>
 
-
 <script>
 
-  const SUPABASE_URL = 'https://zxyviwoxazmcmqyxiiuq.supabase.co';
+const SUPABASE_URL =
+  'https://zxyviwoxazmcmqyxiiuq.supabase.co';
 
-  // IMPORTANT:
-  // Yahan apni MAIN WEBSITE wali same publishable/anon key paste karo.
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_kqGhyRBBmY7lIMobMctMog_2GkRpQfw';
 
-
-  const supabaseClient = window.supabase.createClient(
-    supabaseClient.auth.getSession().then(({ data }) => {
-  if (data.session) {
-    document.getElementById('loginBox').style.display = 'none';
-    document.getElementById('adminPanel').style.display = 'block';
-    loadProducts();
-  }
-});
+const supabaseClient =
+  window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_PUBLISHABLE_KEY
   );
 
 
-  // LOGIN
-  async function login() {
+// LOGIN
+document.getElementById('loginButton').addEventListener('click', login);
 
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
+async function login() {
 
-    const message = document.getElementById('message');
+  const email =
+    document.getElementById('email').value.trim();
 
-    if (!email || !password) {
-      message.textContent = 'Email and password required';
-      return;
-    }
+  const password =
+    document.getElementById('password').value;
 
-    message.textContent = 'Logging in...';
+  const message =
+    document.getElementById('message');
 
-    const { data, error } =
-      await supabaseClient.auth.signInWithPassword({
-        email: email,
-        password: password
-      });
-
-    if (error) {
-      message.textContent = error.message;
-      return;
-    }
-
-    message.textContent = '';
-
-    document.getElementById('loginBox').style.display = 'none';
-    document.getElementById('adminPanel').style.display = 'block';
-
-    loadProducts();
+  if (!email || !password) {
+    message.textContent =
+      'Email and password required';
+    return;
   }
 
+  message.textContent = 'Logging in...';
 
-  // LOAD PRODUCTS
-  async function loadProducts() {
+  const { error } =
+    await supabaseClient.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
 
-    const { data, error } = await supabaseClient
+  if (error) {
+    message.textContent = error.message;
+    return;
+  }
+
+  message.textContent = '';
+
+  document.getElementById('loginBox').style.display =
+    'none';
+
+  document.getElementById('adminPanel').style.display =
+    'block';
+
+  loadProducts();
+}
+
+
+// LOAD PRODUCTS
+async function loadProducts() {
+
+  const { data, error } =
+    await supabaseClient
       .from('products')
       .select('*')
       .order('id', { ascending: true });
 
-   if (error) {
-  alert("Products load nahi hue: " + error.message);
-  console.error("Supabase error:", error);
-  return;
-}
-    
+  if (error) {
+    alert(
+      'Products load nahi hue: ' +
+      error.message
+    );
+    console.error(error);
+    return;
+  }
 
-    const container = document.getElementById('products');
+  const container =
+    document.getElementById('products');
 
-    container.innerHTML = data.map(product => `
+  container.innerHTML = data.map(product => `
 
-      <div class="product">
+    <div class="product">
 
-        <div class="product-name">
-          ${product.name}
-        </div>
+      <div class="product-name">
+        ${product.name}
+      </div>
 
-        <label>Price</label>
+      <label>Price</label>
 
-        <input
-          class="price"
-          type="number"
-          id="price-${product.id}"
-          value="${product.price}"
-          min="0"
+      <input
+        class="price"
+        type="number"
+        id="price-${product.id}"
+        value="${product.price}"
+        min="0"
+      >
+
+      <div class="stock">
+
+        <span>
+          Stock:
+          <strong>
+            ${product.available
+              ? 'In Stock'
+              : 'Out of Stock'}
+          </strong>
+        </span>
+
+        <button
+          type="button"
+          class="${product.available ? 'in' : 'out'}"
+          onclick="toggleStock(${product.id}, ${product.available})"
         >
-
-        <div class="stock">
-
-          <span>
-            Stock:
-            <strong>
-              ${product.available ? 'In Stock' : 'Out of Stock'}
-            </strong>
-          </span>
-
-          <button
-            class="${product.available ? 'in' : 'out'}"
-            onclick="toggleStock(${product.id}, ${product.available})"
-          >
-            ${product.available ? 'In Stock' : 'Out of Stock'}
-          </button>
-
-        </div>
-
-        <button onclick="saveProduct(${product.id})">
-          Save Changes
+          ${product.available
+            ? 'In Stock'
+            : 'Out of Stock'}
         </button>
 
       </div>
 
-    `).join('');
-  }
+      <button
+        type="button"
+        onclick="saveProduct(${product.id})"
+      >
+        Save Changes
+      </button>
+
+    </div>
+
+  `).join('');
+}
 
 
-  // CHANGE STOCK
-  async function toggleStock(id, currentStatus) {
+// CHANGE STOCK
+async function toggleStock(id, currentStatus) {
 
-    const { error } = await supabaseClient
+  const { error } =
+    await supabaseClient
       .from('products')
       .update({
         available: !currentStatus
       })
       .eq('id', id);
 
-    if (error) {
-      alert(error.message);
-      return;
-    }
-
-    loadProducts();
+  if (error) {
+    alert(error.message);
+    return;
   }
 
+  loadProducts();
+}
 
-  // SAVE PRICE
-  async function saveProduct(id) {
 
-    const priceInput =
-      document.getElementById(`price-${id}`);
+// SAVE PRICE
+async function saveProduct(id) {
 
-    const price = Number(priceInput.value);
+  const priceInput =
+    document.getElementById(`price-${id}`);
 
-    if (isNaN(price) || price < 0) {
-      alert('Please enter a valid price');
-      return;
-    }
+  const price =
+    Number(priceInput.value);
 
-    const { error } = await supabaseClient
+  if (isNaN(price) || price < 0) {
+    alert('Please enter a valid price');
+    return;
+  }
+
+  const { error } =
+    await supabaseClient
       .from('products')
       .update({
         price: price
       })
       .eq('id', id);
 
-    if (error) {
-      alert(error.message);
-      return;
-    }
-
-    alert('Product updated successfully ✅');
-
-    loadProducts();
+  if (error) {
+    alert(error.message);
+    return;
   }
 
+  alert('Product updated successfully ✅');
 
-  // LOGOUT
-  async function logout() {
+  loadProducts();
+}
 
-    await supabaseClient.auth.signOut();
 
-    document.getElementById('adminPanel').style.display = 'none';
-    document.getElementById('loginBox').style.display = 'block';
+// LOGOUT
+document.getElementById('logoutButton')
+  .addEventListener('click', logout);
 
-    document.getElementById('email').value = '';
-    document.getElementById('password').value = '';
-  }
+async function logout() {
+
+  await supabaseClient.auth.signOut();
+
+  document.getElementById('adminPanel').style.display =
+    'none';
+
+  document.getElementById('loginBox').style.display =
+    'block';
+
+  document.getElementById('email').value = '';
+  document.getElementById('password').value = '';
+}
 
 </script>
 
