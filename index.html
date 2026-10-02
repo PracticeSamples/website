@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f1e8">
+  <title>Little Fern Cafe | Good things, freshly made</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #202c25;
+      --green: #315e43;
+      --green-dark: #244733;
+      --lime: #d4e67a;
+      --paper: #f5f1e8;
+      --white: #fffdf8;
+      --muted: #73796f;
+      --line: #deddd2;
+      --tomato: #d9684c;
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: 'DM Sans', sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font-family: var(--sans); }
+    button, input, textarea { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { color: inherit; }
+    img { display: block; max-width: 100%; }
+    .announcement { padding: 10px 20px; color: var(--white); background: var(--green-dark); text-align: center; font-size: 11px; letter-spacing: .08em; }
+    .announcement span { color: var(--lime); }
+    .site-header { position: sticky; z-index: 5; top: 0; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 17px max(5vw, calc((100vw - 1320px) / 2)); background: rgb(245 241 232 / 94%); border-bottom: 1px solid var(--line); backdrop-filter: blur(12px); }
+    .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
+    .brand-mark { display: grid; width: 39px; aspect-ratio: 1; place-items: center; color: var(--lime); background: var(--green); border-radius: 50% 50% 45% 50%; font: 700 19px var(--serif); }
+    .brand-name { font: 700 18px var(--serif); line-height: 1; }
+    .brand-name small { display: block; margin-top: 5px; color: var(--muted); font: 600 9px var(--sans); letter-spacing: .15em; text-transform: uppercase; }
+    .main-nav { display: flex; align-items: center; gap: 28px; }
+    .main-nav a { color: var(--ink); font-size: 12px; text-decoration: none; }
+    .main-nav a:hover { color: var(--tomato); }
+    .cart-link { display: inline-flex; align-items: center; gap: 9px; padding: 10px 14px; color: var(--white); background: var(--green); border: 0; cursor: pointer; font-size: 12px; }
+    .cart-link:hover, .primary-button:hover { background: var(--green-dark); }
+    .cart-count { display: grid; min-width: 21px; height: 21px; padding: 0 5px; place-items: center; color: var(--green-dark); background: var(--lime); border-radius: 50%; font-size: 11px; font-weight: 700; }
+    .hero { position: relative; display: grid; min-height: 555px; grid-template-columns: .88fr 1.12fr; overflow: hidden; background: var(--green); }
+    .hero-copy { z-index: 1; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 66px max(5vw, calc((100vw - 1320px) / 2)); padding-right: 20px; color: var(--white); }
+    .eyebrow { margin: 0 0 17px; color: var(--tomato); font-size: 10px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; }
+    .hero .eyebrow { color: var(--lime); }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 530px; margin-bottom: 18px; font: 600 clamp(46px, 5.5vw, 76px)/1.02 var(--serif); letter-spacing: 0; }
+    h1 em { color: var(--lime); font-weight: 500; }
+    .hero-copy > p:not(.eyebrow) { max-width: 390px; margin-bottom: 28px; color: #e0e8dd; font-size: 14px; line-height: 1.75; }
+    .primary-button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 18px; color: var(--white); background: var(--green); border: 0; cursor: pointer; font-size: 12px; font-weight: 700; text-decoration: none; transition: background .18s ease, transform .18s ease; }
+    .hero .primary-button { color: var(--green-dark); background: var(--lime); }
+    .hero .primary-button:hover { background: var(--white); }
+    .hero-image { position: relative; min-height: 555px; }
+    .hero-image img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-image::after { position: absolute; inset: 0; background: linear-gradient(90deg, rgb(36 71 51 / 28%), transparent 45%); content: ''; }
+    .hero-note { position: absolute; z-index: 1; right: 6%; bottom: 7%; max-width: 190px; padding: 15px 17px; color: var(--ink); background: var(--lime); font: 600 13px/1.4 var(--serif); transform: rotate(2deg); }
+    .hero-note small { display: block; margin-top: 5px; font: 600 9px var(--sans); letter-spacing: .1em; text-transform: uppercase; }
+    .marquee { display: flex; justify-content: center; gap: 34px; padding: 14px 20px; color: var(--green-dark); border-bottom: 1px solid var(--line); font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+    .marquee span::before { margin-right: 11px; color: var(--tomato); content: '✳'; }
+    .menu-section, .checkout-section { width: min(1320px, 90%); margin: 0 auto; }
+    .menu-section { padding: 92px 0 88px; }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 30px; margin-bottom: 28px; }
+    h2 { margin-bottom: 0; font: 600 clamp(35px, 4vw, 53px)/1.08 var(--serif); }
+    .section-heading > p { max-width: 330px; margin-bottom: 4px; color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .category-list { display: flex; gap: 8px; overflow-x: auto; padding: 4px 0 17px; scrollbar-width: thin; }
+    .category-button { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 14px; background: transparent; border: 1px solid var(--line); cursor: pointer; font-size: 12px; transition: .18s ease; }
+    .category-button:hover { border-color: var(--green); }
+    .category-button.active { color: var(--white); background: var(--green); border-color: var(--green); }
+    .category-button small { color: inherit; opacity: .7; font-size: 10px; }
+    .menu-status { display: flex; justify-content: space-between; align-items: center; padding: 8px 0 16px; color: var(--muted); font-size: 11px; }
+    .product-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px 18px; }
+    .product-card { min-width: 0; background: var(--white); border: 1px solid #e7e3d8; animation: arrive .35s both; }
+    @keyframes arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .product-image { position: relative; aspect-ratio: 1.24; overflow: hidden; background: #e9e6da; }
+    .product-image img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+    .product-card:hover .product-image img { transform: scale(1.04); }
+    .product-tag { position: absolute; top: 11px; left: 11px; padding: 6px 8px; color: var(--green-dark); background: var(--lime); font-size: 9px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+    .product-info { display: flex; min-height: 104px; flex-direction: column; justify-content: space-between; gap: 8px; padding: 14px 14px 11px; }
+    .product-info h3 { margin: 0; font: 600 17px/1.25 var(--serif); }
+    .product-info p { margin: 4px 0 0; color: var(--muted); font-size: 10px; }
+    .product-bottom { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .product-price { font-size: 13px; font-weight: 700; }
+    .add-button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 34px; padding: 0 11px; color: var(--green); background: transparent; border: 1px solid var(--green); cursor: pointer; font-size: 11px; font-weight: 700; }
+    .add-button:hover { color: var(--white); background: var(--green); }
+    .story-strip { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 7%; padding: 62px max(5vw, calc((100vw - 1320px) / 2)); background: #e9eddf; }
+    .story-photo { height: 360px; overflow: hidden; }
+    .story-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .story-copy { max-width: 470px; }
+    .story-copy h2 { margin-bottom: 17px; }
+    .story-copy > p:not(.eyebrow) { color: var(--muted); font-size: 13px; line-height: 1.8; }
+    .story-points { display: flex; gap: 24px; margin-top: 25px; }
+    .story-points span { color: var(--green); font-size: 11px; font-weight: 700; }
+    .checkout-section { padding: 88px 0 96px; scroll-margin-top: 82px; }
+    .checkout-heading { margin-bottom: 28px; }
+    .checkout-heading h2 { margin-bottom: 9px; }
+    .checkout-heading > p { margin-bottom: 0; color: var(--muted); font-size: 13px; }
+    .checkout-grid { display: grid; grid-template-columns: .95fr 1.05fr; gap: 42px; align-items: start; }
+    .order-summary { padding: 24px; background: #e9eddf; }
+    .order-summary h3, .customer-form h3 { margin-bottom: 18px; font: 600 22px var(--serif); }
+    .empty-cart { padding: 18px 0 8px; color: var(--muted); font-size: 13px; }
+    .empty-cart a { color: var(--green); font-weight: 700; }
+    .cart-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; padding: 14px 0; border-top: 1px solid #d3d9c9; }
+    .cart-row-name { font-size: 12px; font-weight: 700; }
+    .cart-row-price { margin-top: 4px; color: var(--muted); font-size: 11px; }
+    .quantity-control { display: inline-flex; align-items: center; gap: 10px; margin-top: 9px; }
+    .quantity-control button { display: grid; width: 27px; height: 27px; place-items: center; background: var(--white); border: 1px solid #ccd2c3; cursor: pointer; font-size: 16px; }
+    .quantity-control button:hover { border-color: var(--green); }
+    .quantity-control span { min-width: 12px; text-align: center; font-size: 12px; font-weight: 700; }
+    .line-total { align-self: start; font-size: 12px; font-weight: 700; }
+    .summary-total { display: flex; justify-content: space-between; margin-top: 14px; padding-top: 16px; border-top: 1px solid #c9d1c0; font-size: 14px; font-weight: 700; }
+    .customer-form { padding: 24px; background: var(--white); border: 1px solid var(--line); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .field { display: flex; flex-direction: column; gap: 7px; }
+    .field.full { grid-column: 1 / -1; }
+    .field label { font-size: 10px; font-weight: 700; }
+    .field input, .field textarea { width: 100%; min-height: 43px; padding: 11px 12px; color: var(--ink); background: #fffefa; border: 1px solid var(--line); border-radius: 0; outline: none; font-size: 12px; }
+    .field textarea { min-height: 82px; resize: vertical; }
+    .field input:focus, .field textarea:focus { border-color: var(--green); box-shadow: 0 0 0 2px rgb(49 94 67 / 12%); }
+    .submit-button { width: 100%; margin-top: 18px; }
+    .form-note { margin: 11px 0 0; color: var(--muted); font-size: 10px; line-height: 1.5; }
+    .site-footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 26px 5%; color: #e7ebdf; background: var(--green-dark); }
+    .site-footer .brand { color: var(--white); }
+    .site-footer .brand-mark { color: var(--green-dark); background: var(--lime); }
+    .site-footer p, .site-footer small { margin: 0; color: #c4d0c2; font-size: 10px; }
+    .toast { position: fixed; z-index: 10; right: 22px; bottom: 22px; max-width: min(360px, calc(100vw - 36px)); padding: 14px 18px; color: var(--white); background: var(--green-dark); box-shadow: 0 8px 28px rgb(20 35 25 / 20%); font-size: 12px; }
+    [hidden] { display: none !important; }
+    @media (max-width: 900px) {
+      .main-nav { gap: 15px; }
+      .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .hero { grid-template-columns: 1fr 1fr; min-height: 490px; }
+      .hero-image { min-height: 490px; }
+      .hero-copy { padding-left: 5vw; }
+      .checkout-grid { gap: 20px; }
+    }
+    @media (max-width: 650px) {
+      .announcement { font-size: 9px; }
+      .site-header { padding: 12px 5%; }
+      .main-nav { display: none; }
+      .brand-name { font-size: 16px; }
+      .cart-link { padding: 9px 10px; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-copy { padding: 58px 7% 38px; }
+      h1 { max-width: 440px; font-size: clamp(48px, 13vw, 68px); }
+      .hero-image { min-height: 260px; max-height: 360px; }
+      .hero-image::after { background: linear-gradient(0deg, rgb(36 71 51 / 18%), transparent 45%); }
+      .marquee { justify-content: flex-start; gap: 20px; overflow: hidden; white-space: nowrap; font-size: 9px; }
+      .menu-section, .checkout-section { width: 90%; }
+      .menu-section { padding: 64px 0; }
+      .section-heading { align-items: flex-start; flex-direction: column; gap: 12px; }
+      .section-heading > p { max-width: 450px; }
+      .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px 10px; }
+      .product-image { aspect-ratio: .98; }
+      .product-info { min-height: 106px; padding: 11px 10px 9px; }
+      .product-info h3 { font-size: 15px; }
+      .product-info p { font-size: 9px; }
+      .product-price { font-size: 12px; }
+      .add-button { gap: 4px; min-height: 32px; padding: 0 8px; font-size: 10px; }
+      .story-strip { grid-template-columns: 1fr; gap: 28px; padding: 42px 5%; }
+      .story-photo { height: 250px; }
+      .checkout-section { padding: 64px 0; }
+      .checkout-grid { grid-template-columns: 1fr; gap: 16px; }
+      .order-summary, .customer-form { padding: 19px; }
+      .site-footer { align-items: flex-start; flex-direction: column; padding: 25px 5%; }
+    }
+    @media (max-width: 360px) {
+      .product-bottom { align-items: flex-start; flex-direction: column; }
+      .add-button { width: 100%; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div class="announcement">FRESHLY MADE, EVERY DAY <span>✳</span> FREE DELIVERY ON ORDERS ABOVE RS. 499</div>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="Little Fern Cafe home">
+      <span class="brand-mark" aria-hidden="true">f</span>
+      <span class="brand-name">Little Fern<small>Cafe & kitchen</small></span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation"><a href="#menu">Menu</a><a href="#story">Our cafe</a><a href="#checkout">Order online</a></nav>
+    <button class="cart-link" type="button" onclick="goToCheckout()" aria-label="Go to cart and checkout">Your order <span class="cart-count" id="cartCount">0</span></button>
+  </header>
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <p class="eyebrow">A little pause in your day</p>
+        <h1>Good things,<br><em>freshly made.</em></h1>
+        <p>Thoughtful coffee, bright juices and the kind of comfort food that makes you stay for one more bite.</p>
+        <a class="primary-button" href="#menu">Explore the menu <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?auto=format&fit=crop&w=1500&q=88" alt="Warm, sunlit cafe counter with fresh coffee">
+        <div class="hero-note">A good day starts here.<small>Made with a little more care</small></div>
+      </div>
+    </section>
+    <div class="marquee" aria-label="Cafe highlights"><span>Real ingredients</span><span>Made to order</span><span>Locally loved</span></div>
+
+    <section class="menu-section" id="menu">
+      <div class="section-heading">
+        <div><p class="eyebrow">The good stuff</p><h2>What sounds<br>good today?</h2></div>
+        <p>Pick a category to browse the menu. Everything is prepared fresh, just the way a cafe treat should be.</p>
+      </div>
+      <div class="category-list" id="categories" role="group" aria-label="Filter products by category"></div>
+      <div class="menu-status"><span id="menuCount" aria-live="polite"></span><span>Prices in INR</span></div>
+      <div class="product-grid" id="products" aria-live="polite"></div>
+    </section>
+
+    <section class="story-strip" id="story">
+      <div class="story-photo"><img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1100&q=85" alt="A welcoming cafe space filled with natural light" loading="lazy"></div>
+      <div class="story-copy"><p class="eyebrow">A neighborhood kind of cafe</p><h2>Made fresh.<br>Served with heart.</h2><p>Little Fern is your easy, everyday place for a proper cup, a refreshing drink and something lovely to eat. We keep good ingredients close and make each order when you ask for it.</p><div class="story-points"><span>Freshly prepared</span><span>Good mood guaranteed</span></div></div>
+    </section>
+
+    <section class="checkout-section" id="checkout">
+      <div class="checkout-heading"><p class="eyebrow">Nearly yours</p><h2>Your order</h2><p>Check your items, add your delivery details and send the order to us on WhatsApp.</p></div>
+      <div class="checkout-grid">
+        <section class="order-summary" aria-label="Cart summary">
+          <h3>Order summary</h3>
+          <div id="cartItems"></div>
+          <div class="summary-total"><span>Total</span><span id="cartTotal">Rs. 0</span></div>
+        </section>
+        <form class="customer-form" id="orderForm" onsubmit="sendOrder(event)">
+          <h3>Delivery details</h3>
+          <div class="form-grid">
+            <div class="field"><label for="customerName">Full name</label><input id="customerName" name="name" autocomplete="name" placeholder="Your name" required></div>
+            <div class="field"><label for="mobile">Mobile number</label><input id="mobile" name="mobile" type="tel" inputmode="numeric" autocomplete="tel" pattern="[0-9]{10}" maxlength="10" placeholder="10-digit mobile number" required></div>
+            <div class="field full"><label for="address">Delivery address</label><textarea id="address" name="address" autocomplete="street-address" placeholder="House number, street, area" required></textarea></div>
+            <div class="field"><label for="pincode">Pincode</label><input id="pincode" name="pincode" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="6-digit pincode" required></div>
+          </div>
+          <button class="primary-button submit-button" type="submit">Send order on WhatsApp <span aria-hidden="true">↗</span></button>
+          <p class="form-note">Your WhatsApp app will open with the order details ready to send.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <a class="brand" href="#home"><span class="brand-mark" aria-hidden="true">f</span><span class="brand-name">Little Fern<small>Cafe & kitchen</small></span></a>
+    <p>Good food, good company, any day of the week.</p>
+    <small>© 2026 Little Fern Cafe</small>
+  </footer>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script>
+    const OWNER_WHATSAPP = '91XXXXXXXXXX';
+    const SUPABASE_URL = 'https://zxyviwoxazmcmqyxiiuq.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_kqGhyRBBmY7lIMobMctMog_2GkRpQfw';
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+async function loadProductsFromSupabase() {
+  const { data, error } = await supabaseClient
+    .from('products')
+    .select('*')
+    .order('id', { ascending: true });
+
+  if (error) {
+    console.error('Supabase error:', error);
+    return;
+  }
+
+  if (data && data.length > 0) {
+    products = data;
+    renderCategories();
+    renderProducts();
+    renderCart();
+  }
+}
+
+    const categories = [
+      { name: 'Coffee', icon: '☕', items: ['Espresso', 'Americano', 'Cappuccino', 'Cafe Latte', 'Vanilla Latte', 'Caramel Latte', 'Mocha', 'Hazelnut Coffee', 'Cold Brew', 'Affogato'] },
+      { name: 'Tea & Chai', icon: '🍵', items: ['Masala Chai', 'Ginger Chai', 'Elaichi Chai', 'Cutting Chai', 'Kashmiri Kahwa', 'Green Tea', 'Lemon Honey Tea', 'Iced Lemon Tea', 'Peach Iced Tea', 'Matcha Latte'] },
+      { name: 'Fresh Juices', icon: '🍊', items: ['Orange Juice', 'Sweet Lime Juice', 'Watermelon Juice', 'Pineapple Juice', 'Mango Juice', 'Pomegranate Juice', 'Apple Juice', 'Carrot Orange Juice', 'ABC Juice', 'Fresh Lime Soda'] },
+      { name: 'Shakes & Smoothies', icon: '🥤', items: ['Classic Vanilla Shake', 'Chocolate Shake', 'Strawberry Shake', 'Mango Shake', 'Oreo Shake', 'Banana Peanut Shake', 'Cold Coffee Frappe', 'Mango Smoothie', 'Berry Smoothie', 'Green Garden Smoothie'] },
+      { name: 'Quick Bites', icon: '🥪', items: ['Grilled Veg Sandwich', 'Paneer Tikka Sandwich', 'Corn Cheese Sandwich', 'Classic Veg Burger', 'Crispy Paneer Burger', 'Peri Peri Fries', 'Masala Fries', 'Garlic Bread', 'Cheese Chilli Toast', 'Margherita Pizza'] },
+      { name: 'Desserts', icon: '🍰', items: ['Classic Brownie', 'Brownie with Ice Cream', 'New York Cheesecake', 'Red Velvet Cake', 'Chocolate Truffle Cake', 'Lotus Biscoff Cheesecake', 'Blueberry Muffin', 'Chocolate Chip Cookie', 'Tiramisu Cup', 'Waffle with Chocolate'] }
+    ];
+    const productImages = [
+      ['photo-1509042239860-f550ce710b93', 'photo-1495474472287-4d71bcdd2085', 'photo-1461023058943-07fcbe16d735', 'photo-1511920170033-f8396924c348'],
+      ['photo-1544787219-7f47ccb76574', 'photo-1576092768241-dec231879fc3', 'photo-1556679343-c7306c1976bc'],
+      ['photo-1622597467836-f3285f2131b8', 'photo-1600271886742-f049cd451bba', 'photo-1613478223719-2ab802602423'],
+      ['photo-1572490122747-3968b75cc699', 'photo-1553530666-ba11a7da3888', 'photo-1505252585461-04db1eb84625'],
+      ['photo-1528735602780-2552fd46c7af', 'photo-1553909489-cd47e0ef937f', 'photo-1567234669003-dce7a7a88821'],
+      ['photo-1578985545062-69928b1d9587', 'photo-1565958011703-44f9829ba187', 'photo-1576618148400-f54bed99fcfd']
+    ];
+    const categoryPrices = [
+      [90, 110, 140, 150, 170, 180, 180, 190, 160, 190],
+      [50, 60, 60, 45, 120, 90, 110, 130, 140, 170],
+      [120, 110, 100, 130, 140, 160, 130, 150, 170, 90],
+      [160, 180, 180, 170, 200, 190, 190, 200, 220, 140],
+      [160, 190, 180, 170, 210, 130, 110, 120, 160, 220],
+      [140, 190, 220, 200, 220, 240, 130, 100, 210, 230]
+    ];
+    let products = categories.flatMap((category, categoryIndex) => category.items.map((name, itemIndex) => ({
+      id: categoryIndex * 10 + itemIndex + 1,
+      category: category.name,
+      name,
+      price: categoryPrices[categoryIndex][itemIndex],
+      image: `https://images.unsplash.com/${productImages[categoryIndex][itemIndex % productImages[categoryIndex].length]}?auto=format&fit=crop&w=700&q=78`,
+      note: ['Made fresh to order', 'A Little Fern favorite', 'A lovely everyday pick'][itemIndex % 3]
+    })));
+    const cart = new Map();
+    let activeCategory = 'All';
+    let toastTimeout;
+    const money = amount => 'Rs. ' + amount.toLocaleString('en-IN');
+
+    function renderCategories() {
+      const choices = [{ name: 'All', icon: '✳', count: products.length }, ...categories.map(category => ({ name: category.name, icon: category.icon, count: 10 }))];
+      document.getElementById('categories').innerHTML = choices.map(category => `
+        <button class="category-button${activeCategory === category.name ? ' active' : ''}" type="button" aria-pressed="${activeCategory === category.name}" onclick="selectCategory('${category.name}')">
+          <span aria-hidden="true">${category.icon}</span> ${category.name} <small>${category.count}</small>
+        </button>`).join('');
+    }
+function renderProducts() {
+  const visible = activeCategory === 'All'
+    ? products
+    : products.filter(product => product.category === activeCategory);
+
+  document.getElementById('menuCount').textContent = `${visible.length} items`;
+
+  document.getElementById('products').innerHTML = visible.map((product, index) => `
+    <article class="product-card" style="animation-delay:${Math.min(index % 10, 6) * 35}ms">
+      <div class="product-image">
+        <img src="${product.image}" alt="${product.name}" loading="lazy">
+        <span class="product-tag">${product.category}</span>
+      ${product.available == false ? '<span class="product-tag" style="top:auto; bottom:11px; left:11px; background:#73796f; color:white;">Out of Stock</span>' : ''}
+      </div>
+
+      <div class="product-info">
+        <div>
+          <h3>${product.name}</h3>
+          <p>${product.note}</p>
+        </div>
+
+        <div class="product-bottom">
+          <span class="product-price">${money(product.price)}</span>
+
+          ${product.available == false
+            ? '<button class="add-button" type="button" disabled style="opacity:.5; cursor:not-allowed;">Out of Stock</button>'
+            : `<button class="add-button" type="button" onclick="addToCart(${product.id})" aria-label="Add ${product.name} to order"><span aria-hidden="true">+</span> Add</button>`
+          }
+        </div>
+      </div>
+    </article>
+  `).join('');
+}
+
+function selectCategory(categoryName) {
+  activeCategory = categoryName;
+  renderCategories();
+  renderProducts();
+}
+
+    function addToCart(id) {
+
+        const product = products[id - 1];
+if (product.available === false) return;
+      cart.set(id, (cart.get(id) || 0) + 1);
+      renderCart();
+      showToast(`${products[id - 1].name} added to your order`);
+      goToCheckout();
+    }
+
+    function changeQuantity(id, amount) {
+      const next = (cart.get(id) || 0) + amount;
+      if (next <= 0) cart.delete(id);
+      else cart.set(id, next);
+      renderCart();
+    }
+
+    function renderCart() {
+      const count = [...cart.values()].reduce((sum, quantity) => sum + quantity, 0);
+      const total = [...cart].reduce((sum, [id, quantity]) => sum + products[id - 1].price * quantity, 0);
+      document.getElementById('cartCount').textContent = count;
+      document.getElementById('cartItems').innerHTML = cart.size ? [...cart].map(([id, quantity]) => {
+        const product = products[id - 1];
+        return `<div class="cart-row">
+          <div><div class="cart-row-name">${product.name}</div><div class="cart-row-price">${money(product.price)} each</div>
+            <div class="quantity-control" aria-label="Quantity for ${product.name}">
+              <button type="button" onclick="changeQuantity(${id}, -1)" aria-label="Decrease ${product.name} quantity">−</button><span>${quantity}</span><button type="button" onclick="changeQuantity(${id}, 1)" aria-label="Increase ${product.name} quantity">+</button>
+            </div>
+          </div><span class="line-total">${money(product.price * quantity)}</span>
+        </div>`;
+      }).join('') : '<div class="empty-cart">Your order is empty. <a href="#menu">Browse the menu</a> to add something fresh.</div>';
+      document.getElementById('cartTotal').textContent = money(total);
+    }
+
+    function goToCheckout() {
+      document.getElementById('checkout').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.hidden = false;
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => { toast.hidden = true; }, 2400);
+    }
+
+    function sendOrder(event) {
+      event.preventDefault();
+      if (OWNER_WHATSAPP.includes('X')) {
+        showToast('Set the cafe owner WhatsApp number before placing orders.');
+        return;
+      }
+      if (!cart.size) {
+        showToast('Add at least one item before placing your order.');
+        document.getElementById('menu').scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+      const form = new FormData(event.currentTarget);
+      const items = [...cart].map(([id, quantity]) => {
+        const product = products[id - 1];
+        return `- ${product.name} x ${quantity} = ${money(product.price * quantity)}`;
+      }).join('\n');
+      const total = [...cart].reduce((sum, [id, quantity]) => sum + products[id - 1].price * quantity, 0);
+      const message = `Hello Little Fern Cafe, I would like to place an order.\n\nName: ${form.get('name')}\nMobile: ${form.get('mobile')}\nAddress: ${form.get('address')}\nPincode: ${form.get('pincode')}\n\nItems:\n${items}\n\nTotal: ${money(total)}`;
+      window.open(`https://wa.me/${OWNER_WHATSAPP}?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
+    }
+
+    renderCategories();
+    renderProducts();
+    renderCart();
+    loadProductsFromSupabase();
+  </script>
+</body>
+</html>
