@@ -215,9 +215,11 @@ const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_kqGhyRBBmY7lIMobMctMog_2GkRpQfw
       .select('*')
       .order('id', { ascending: true });
 
-    if (error) {
-      alert(error.message);
-      return;
+   if (error) {
+  alert("Products load nahi hue: " + error.message);
+  console.error("Supabase error:", error);
+  return;
+}
     }
 
     const container = document.getElementById('products');
